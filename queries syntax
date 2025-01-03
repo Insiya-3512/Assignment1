@@ -59,3 +59,127 @@ FROM Employee e
 LEFT JOIN Department d
 ON e.DeptID = d.DeptID;
 
+-> Syntax for Right Outer Join:
+SELECT e.EmpID, e.FirstName, d.DeptName
+FROM Employee e
+RIGHT JOIN Department d
+ON e.DeptID = d.DeptID;
+
+-> Full Join:
+SELECT e.EmpID, e.FirstName, d.DeptName
+FROM Employee e
+FULL JOIN Department d
+ON e.DeptID = d.DeptID;
+
+-> Cross Join:
+SELECT e.FirstName, d.DeptName
+FROM Employee e
+CROSS JOIN Department d;
+
+-> SubQuery Example:
+SELECT EmpID, FirstName
+FROM Employee
+WHERE DeptID = (SELECT DeptID FROM Department WHERE DeptName = 'HR');
+
+-> Correlated Subquery example:
+SELECT e.EmpID, e.FirstName
+FROM Employee e
+WHERE e.Salary > (SELECT AVG(Salary) FROM Employee WHERE DeptID = e.DeptID);
+
+-> UNION
+SELECT FirstName FROM Employee WHERE DeptID = 1
+UNION
+SELECT FirstName FROM Employee WHERE DeptID = 2;
+
+-> INTERSECT
+SELECT FirstName FROM Employee WHERE DeptID = 1
+INTERSECT
+SELECT FirstName FROM Employee WHERE DeptID = 2;
+
+-> EXCEPT
+SELECT FirstName FROM Employee WHERE DeptID = 1
+EXCEPT
+SELECT FirstName FROM Employee WHERE DeptID = 2;
+
+-> Syntax for Window Functions:
+
+1. ROW_NUMBER()
+Assigns a unique row number to each row within a partition.
+SELECT EmpID, FirstName, Salary,
+       ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum
+FROM Employee;
+
+2. RANK()
+Assigns a rank to each row within a partition, with gaps in ranking for ties.
+SELECT EmpID, FirstName, Salary,
+       RANK() OVER (ORDER BY Salary DESC) AS Rank
+FROM Employee;
+
+3. DENSE_RANK()
+Similar to RANK(), but without gaps in ranking.
+SELECT EmpID, FirstName, Salary,
+       DENSE_RANK() OVER (ORDER BY Salary DESC) AS DenseRank
+FROM Employee;
+
+4. NTILE(): Divides the result set into a specified number of groups and assigns a bucket number to each row.
+SELECT EmpID, FirstName, Salary,
+       NTILE(4) OVER (ORDER BY Salary DESC) AS Quartile
+FROM Employee;
+
+5. LAG(): Returns the value of a column from a previous row within the same result set.
+SELECT EmpID, FirstName, Salary,
+       LAG(Salary, 1) OVER (ORDER BY Salary DESC) AS PrevSalary
+FROM Employee;
+
+-> Examples of CTE and Recursive CTEs
+
+CTE:
+WITH DepartmentSalary AS (
+    SELECT DeptID, AVG(Salary) AS AvgSalary
+    FROM Employee
+    GROUP BY DeptID
+)
+SELECT e.EmpID, e.FirstName, e.Salary, d.AvgSalary
+FROM Employee e
+JOIN DepartmentSalary d
+ON e.DeptID = d.DeptID
+WHERE e.Salary > d.AvgSalary;
+
+Recursive CTE:
+WITH RECURSIVE OrgChart AS (
+    SELECT EmpID, FirstName, ManagerID
+    FROM Employee
+    WHERE ManagerID IS NULL
+    UNION ALL
+    SELECT e.EmpID, e.FirstName, e.ManagerID
+    FROM Employee e
+    JOIN OrgChart o
+    ON e.ManagerID = o.EmpID
+)
+SELECT * FROM OrgChart;
+
+-> Examples of Pivoting and Unpivoting Data:
+
+Pivot:
+SELECT DeptID, 
+       SUM(CASE WHEN Month = 'Jan' THEN Salary ELSE 0 END) AS JanSalary,
+       SUM(CASE WHEN Month = 'Feb' THEN Salary ELSE 0 END) AS FebSalary
+FROM Employee
+GROUP BY DeptID;
+
+Unpivot:
+SELECT DeptID, Month, Salary
+FROM (
+    SELECT DeptID, JanSalary, FebSalary
+    FROM Employee
+) AS SourceTable
+UNPIVOT (
+    Salary FOR Month IN (JanSalary, FebSalary)
+) AS Unpivoted;
+
+
+
+
+
+
+
