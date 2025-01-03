@@ -100,3 +100,70 @@ When to Use:
 1. To improve query performance.
 2. When frequent joins negatively impact query performance.
 3. When aggregating data for reporting and analysis.
+
+# Section 3
+Basic SQL Commands:
+
+-> Data Definition Language:
+1. Data Definition Language (DDL)
+DDL commands are used to define or modify database structures, such as tables and schemas.
+CREATE: Defines a new table, view, or other database object.
+ALTER: Modifies an existing database object, such as adding or deleting a column.
+DROP: Deletes an existing database object, such as a table or view.
+
+-> Data Manipulation Language (DML)
+DML commands are used to manage the data within tables.
+SELECT: Retrieves data from a database.
+INSERT: Inserts new data into a table.
+UPDATE: Modifies existing data.
+DELETE: Removes data from a table.
+
+-> Data Control Language (DCL)
+DCL commands control access to data in the database by granting or revoking permissions.
+GRANT: Provides privileges to a user.
+REVOKE: Removes privileges from a user.
+
+-> Transaction Control Language (TCL)
+TCL commands are used to manage transactions in a database. Transactions ensure that a sequence of SQL statements are executed in a way that maintains data integrity.
+BEGIN: Marks the beginning of a transaction.
+COMMIT: Commits the current transaction (makes changes permanent).
+ROLLBACK: Undoes the current transaction (reverts changes).
+
+# Section 4
+
+Advanced SQL Queries:
+
+Joins:
+Joins combine data from two or more tables based on a related column.
+1. Inner Join : Returns records that have matching values in both tables.
+2. Outer Joins : Outer joins return rows even if there is no match between the tables.
+   Left Outer Join (LEFT JOIN): Returns all records from the left table and matching records from the right table. If no match, NULLs will     appear for the right table's columns.
+   Right Outer Join (RIGHT JOIN): Returns all records from the right table and matching records from the left table.
+3. Full Outer Join (FULL JOIN): Returns all records when there is a match in either left or right table. Non-matching rows will have NULLs     for missing columns.
+4. Cross Join : Returns the Cartesian product of the two tables (every row of the first table is combined with every row of the second         table).
+
+Subqueries & Correlated Subqueries:
+-> Subquery: A query nested inside another query. It can return a single value, a list of values, or a table.
+-> Correlated Subquery: A subquery that refers to columns of the outer query.
+
+Set Operations:
+Set operations allow you to combine the results of two or more queries.
+-> UNION: Combines results from two queries, removing duplicates.
+-> INTERSECT: Returns only the rows that appear in both result sets.
+-> EXCEPT: Returns rows from the first query that do not appear in the second query.
+
+Window Functions:
+Window functions perform calculations across a set of rows related to the current row. They are used for analytics and ranking purposes.
+-> ROW_NUMBER(): Assigns a unique row number to each row within a partition.
+-> RANK(): Assigns a rank to each row within a partition, with gaps in ranking for ties.
+-> DENSE_RANK(): Similar to RANK(), but without gaps in ranking.
+-> NTILE(): Divides the result set into a specified number of groups and assigns a bucket number to each row.
+-> LAG(): Returns the value of a column from a previous row within the same result set.
+
+Common Table Expressions (CTEs) & Recursive Queries:
+-> CTE (Common Table Expression): A temporary result set defined within a WITH clause, often used for simplifying complex queries.
+-> Recursive Queries: CTEs can also be used for recursive queries, such as hierarchical data traversal.
+
+Pivoting and Unpivoting Data:
+Pivoting : Converting rows into columns.
+Unpivoting : Convertying columns into rows.
