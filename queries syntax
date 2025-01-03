@@ -1,0 +1,61 @@
+-> Syntax for CREATE
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Salary DECIMAL(10, 2),
+    DeptID INT
+);
+
+-> Syntax for ALTER
+ALTER TABLE Employee
+ADD Email VARCHAR(100);
+
+-> Syntax for DROP
+DROP TABLE Employee;
+
+-> Syntax for SELECT
+SELECT EmpID, FirstName, LastName, Salary, DeptID
+FROM Employee;
+
+-> Syntax for INSERT
+INSERT INTO Employee (EmpID, FirstName, LastName, Salary, DeptID)
+VALUES (101, 'John', 'Doe', 55000.00, 2);
+
+-> Syntax for UPDATE
+UPDATE Employee
+SET Salary = 60000
+WHERE EmpID = 101;
+
+-> Syntax for DELETE
+DELETE FROM Employee
+WHERE EmpID = 101;
+
+-> Syntax for GRANT
+GRANT SELECT ON Employee TO John;
+
+-> Syntax for REVOKE
+REVOKE SELECT ON Employee FROM John;
+
+-> Transaction Flow:
+BEGIN;  -- Start transaction
+
+UPDATE Employee
+SET Salary = 65000
+WHERE EmpID = 102;
+
+COMMIT;  -- Commit the transaction
+ROLLBACK;  -- Uncomment to roll back the transaction instead of committing
+
+-> Syntax for Inner Joins:
+SELECT e.EmpID, e.FirstName, d.DeptName
+FROM Employee e
+INNER JOIN Department d
+ON e.DeptID = d.DeptID;
+
+-> Syntax for Left Outer joins:
+SELECT e.EmpID, e.FirstName, d.DeptName
+FROM Employee e
+LEFT JOIN Department d
+ON e.DeptID = d.DeptID;
+
